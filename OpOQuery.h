@@ -15,6 +15,7 @@
 NS_OPODB_BEGIN
 
 class OpOCollection;
+class OpOQueryCell;
 
 class OpOQuery : public OpODBBase
 {
@@ -61,7 +62,7 @@ public:
     void remove();
     virtual ~OpOQuery();
 private:
-    std::list<std::string *> *m_queries;
+    std::list<OpOQueryCell*> *m_queries;
     OpOCollection *m_collection;
 };
 

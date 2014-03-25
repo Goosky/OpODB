@@ -15,14 +15,14 @@ OpOQueryCell::OpOQueryCell()
     
 }
 
-std::string*
+const std::string*
 OpOQueryCell::getSchemaName()
 {
     return m_schemaName;
 }
 
 void
-OpOQueryCell::setSchemaName(std::string *schemaName)
+OpOQueryCell::setSchemaName(const std::string *schemaName)
 {
     m_schemaName = schemaName;
 }
@@ -33,14 +33,14 @@ OpOQueryCell::getOperation()
     return m_operation;
 }
 
-std::string*
+const std::string*
 OpOQueryCell::getValue()
 {
     return m_value;
 }
 
 void
-OpOQueryCell::setValue(std::string *value)
+OpOQueryCell::setValue(const std::string *value)
 {
     m_value = value;
 }

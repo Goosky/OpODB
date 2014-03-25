@@ -33,17 +33,17 @@ class OpOQueryCell : public OpODBBase
 {
 public:
     OpOQueryCell();
-    std::string* getSchemaName();
-    void setSchemaName(std::string *schemaName);
+    const std::string* getSchemaName();
+    void setSchemaName(const std::string *schemaName);
     OpODBQueryOperation getOperation();
     void setOperation(OpODBQueryOperation operation);
-    std::string *getValue();
-    void setValue(std::string *value);
+    const std::string *getValue();
+    void setValue(const std::string *value);
     virtual ~OpOQueryCell();
 private:
-    std::string *m_schemaName;
+    const std::string *m_schemaName;
     OpODBQueryOperation m_operation;
-    std::string *m_value;
+    const std::string *m_value;
 };
 
 NS_OPODB_END
