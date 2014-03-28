@@ -15,21 +15,23 @@
 NS_OPODB_BEGIN
 
 class OpOQuery;
+class OpOQueryCell;
+class OpODBSchema;
 
 class OpOCollection : public OpODBBase
 {
 public:
     OpOCollection(const std::string *name,
                   const std::string *databasepath);
-    std::list<std::string> *allIndexes();
-    void createIndex(const std::string *indexName);
+    std::vector<std::string*> *allIndexes();
+    void createIndex(std::string *indexName);
     void removeIndex(const std::string *indexName);
     void remoteAllIndexes();
     std::map<std::string, std::string> *put(std::map<std::string*,
                                             std::string*> *document);
     void waitForWriting();
     void removeBykey(const std::string *documentKey);
-    void removeByQuery(const std::list<std::string*> *queries);
+    void removeByQuery(const std::list<OpOQueryCell*> *queries);
     void removeAll();
     void clearCache();
     OpOQuery *query();
@@ -49,9 +51,9 @@ public:
     OpOQuery *whereLike(const std::string *indexName,
                         const std::string *value);
     u_int32_t count();
-    u_int32_t countByQuery(const std::list<std::string*> *queries);
-    std::list<std::string *> *fetchByQuery(const std::list<std::string *> *queries,
-                                         const u_int32_t kip,
+    u_int32_t countByQuery(const std::list<OpOQueryCell*> *queries);
+    std::list<OPODB_MAP> *fetchByQuery(const std::list<OpOQueryCell *> *queries,
+                                         const u_int32_t skip,
                                          const u_int32_t limit);
     void removeCollectionFiles();
     void close();
@@ -59,11 +61,17 @@ public:
     const std::string *getName() const;
     virtual ~OpOCollection();
 private:
+    OPODB_BURST_LINK void loadIndexForSchema(OpODBSchema *schema,
+                                             std::map<std::string*, OpODBSchema*> *schemas,
+                                             std::list<std::string*> *clearedIndexBock,
+                                             std::string *indexFilePath,
+                                             std::string *documentFilePath);
     std::string *m_documentFilePath;
     std::string *m_schemaFilePath;
     std::string *m_indexFilePath;
     u_int32_t m_idCount;
     const std::string *m_name;
+    std::map<std::string*, OpODBSchema*> *m_schemas;
 };
 
 NS_OPODB_END

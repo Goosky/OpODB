@@ -54,6 +54,12 @@ public:
     void removeWithKey(std::string *key);
     void removeALl();
     void close();
+    unsigned getOffsetInFile();
+    void setOffsetInFile(unsigned offsetInfile);
+    unsigned getPreviousOffsetInFile();
+    void setPreviousOffsetInFile(unsigned previousOffsetInFile);
+    unsigned getNextOffsetInFile();
+    void setNextOffsetInFile(unsigned nextOffsetInFile);
     virtual ~OpODBSchema();
 private:
     OPODB_BURST_LINK void insertIndexIntoArrayWithSort(std::list<OpODBIndex*> *array,

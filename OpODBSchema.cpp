@@ -21,6 +21,7 @@ OpODBSchema::OpODBSchema(void *data,
 //todo
     m_name = new std::string();
     m_offsetInFile = offset;
+    std::string opoDbKey(OPODB_KEY);
     m_unique = m_name->compare(OPODB_KEY) == 0;
     if (m_unique) {
         m_schemaType = SchemaTypeString;
@@ -200,7 +201,7 @@ OpODBSchema::insertIndexIntoArrayWithSort(std::list<OpODBIndex*> *array,
     //find target
     unsigned int aimIndex = 0;
     OpODBIndex *target = nullptr;
-    for (std::list<OpODBIndex*>::iterator i = array->begin();
+    for (auto i = array->begin();
          i!=array->end(); i++,aimIndex++) {
         if (aimIndex == targetIndex) {
             target = *i;
@@ -235,14 +236,14 @@ OpODBSchema::insertIndexIntoArrayWithSort(std::list<OpODBIndex*> *array,
     
     aimIndex = 0;
     std::list<OpODBIndex*>::iterator targetIterator ;
-    for (std::list<OpODBIndex*>::iterator i = array->begin();
+    for (auto i = array->begin();
          i!=array->end(); i++,aimIndex++) {
         if (aimIndex == upBound) {
             targetIterator = i;
             break;
         }
     }
-    array->insert(targetIterator, new OpODBIndex(insertValue,key));
+    array->insert(++targetIterator, new OpODBIndex(insertValue,key));
 }
 
 ComparisonResult
@@ -258,9 +259,9 @@ OpODBSchema::compare(std::string* value1,
             break;
         case SchemaTypeNumber:{
             if (typeid(value1) == typeid(123)) {//int
-                result = (atoi(value1->c_str()) > atoi(value2->c_str()))?OrderedDescending:OrderedAscending;
+                result = (std::stoi(value1->c_str()) > std::stoi(value2->c_str()))?OrderedDescending:OrderedAscending;
             }else if (typeid(value1) == typeid(123.00)){//double
-                result = (atof(value1->c_str())>atof(value2->c_str())?
+                result = (std::stof(value1->c_str())> std::atof(value2->c_str())?
                           OrderedDescending:OrderedAscending);
             }
         }
@@ -331,6 +332,42 @@ void
 OpODBSchema::close()
 {
     
+}
+
+unsigned
+OpODBSchema::getOffsetInFile()
+{
+    return m_offsetInFile;
+}
+
+void
+OpODBSchema::setOffsetInFile(unsigned offsetInfile)
+{
+    m_offsetInFile = offsetInfile;
+}
+
+unsigned
+OpODBSchema::getPreviousOffsetInFile()
+{
+    return m_previousOffsetInFile;
+}
+
+void
+OpODBSchema::setPreviousOffsetInFile(unsigned previousOffsetInFile)
+{
+    m_previousOffsetInFile = previousOffsetInFile;
+}
+
+unsigned
+OpODBSchema::getNextOffsetInFile()
+{
+    return m_nextOffsetInFile;
+}
+
+void
+OpODBSchema::setNextOffsetInFile(unsigned nextOffsetInFile)
+{
+    m_nextOffsetInFile = nextOffsetInFile;
 }
 
 OpODBSchema::~OpODBSchema()

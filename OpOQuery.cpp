@@ -30,7 +30,7 @@ OpOQuery::queryAndEqual(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryEqual | QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryEqual | QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -42,7 +42,7 @@ OpOQuery::queryAndNotEqual(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryUnEqual | QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryUnEqual | QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -54,7 +54,7 @@ OpOQuery::queryAndLess(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryLess|QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryLess|QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -66,7 +66,7 @@ OpOQuery::queryAndLessEqual(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryLessEqual|QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryLessEqual|QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -78,7 +78,7 @@ OpOQuery::queryAndGreater(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryGreater|QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryGreater|QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -90,7 +90,7 @@ OpOQuery::queryAndGreaterEqual(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryGreaterEqual|QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryGreaterEqual|QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -102,7 +102,7 @@ OpOQuery::queryAndLike(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryLike|QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryLike|QueryIntersection));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -112,7 +112,7 @@ OpOQuery*
 OpOQuery::queryOrAll()
 {
     OpOQueryCell *query = new OpOQueryCell();
-//    query->setOperation((OpODBQueryOperation)(QueryAll|QueryIntersection));
+    query->setOperation((OpODBQueryOperation)(QueryAll|QueryIntersection));
     m_queries->push_back(query);
     return this;
 }
@@ -123,7 +123,7 @@ OpOQuery::queryOrEqual(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryEqual|QueryUnion));
+    query->setOperation((OpODBQueryOperation)(QueryEqual|QueryUnion));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -135,7 +135,7 @@ OpOQuery::queryOrNotEqual(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryUnEqual|QueryUnion));
+    query->setOperation((OpODBQueryOperation)(QueryUnEqual|QueryUnion));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -147,7 +147,7 @@ OpOQuery::queryOrLess(const std::string *indexName,
 {
     OpOQueryCell *query = new OpOQueryCell();
     query->setSchemaName(indexName);
-//    query->setOperation((OpODBQueryOperation)(QueryLess|QueryUnion));
+    query->setOperation((OpODBQueryOperation)(QueryLess|QueryUnion));
     query->setValue(value);
     m_queries->push_back(query);
     return this;
@@ -224,37 +224,42 @@ OpOQuery::orderByDESC(const std::string *indexName)
 u_int32_t
 OpOQuery::count()
 {
-    return 0;
+    return m_collection->countByQuery(m_queries);
 }
 
-std::list<std::string *>*
+std::list<OPODB_MAP>*
 OpOQuery::fetch()
 {
-    return nullptr;
+    return m_collection->fetchByQuery(m_queries, 0, 0);
 }
 
-std::list<std::string *>*
+std::list<OPODB_MAP>*
 OpOQuery::fetch(u_int32_t limit)
 {
-    return nullptr;
+    return m_collection->fetchByQuery(m_queries, 0, limit);
 }
 
-std::list<std::string *>*
+std::list<OPODB_MAP>*
 OpOQuery::fetch(u_int32_t limit, u_int32_t skip)
 {
-    return nullptr;
+    return m_collection->fetchByQuery(m_queries, skip, limit);
 }
 
 std::map<std::string *, std::string *>*
 OpOQuery::fetchFirst()
 {
-    return nullptr;
+    std::list<OPODB_MAP>* docs = m_collection->fetchByQuery(m_queries, 0, 1);
+    if (docs->size() == 0) {
+        return nullptr;
+    }else{
+        return docs->front();
+    }
 }
 
 void
 OpOQuery::remove()
 {
-    
+    m_collection->removeByQuery(m_queries);
 }
 
 OpOQuery::~OpOQuery()

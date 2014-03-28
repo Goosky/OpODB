@@ -54,9 +54,9 @@ public:
     OpOQuery* orderByIndexName(const std::string *indexName);
     OpOQuery* orderByDESC(const std::string *indexName);
     u_int32_t count();
-    std::list<std::string *> *fetch();
-    std::list<std::string *> *fetch(u_int32_t limit);
-    std::list<std::string *> *fetch(u_int32_t limit,
+    std::list<std::map<std::string *, std::string *>*> *fetch();
+    std::list<std::map<std::string *, std::string *>*> *fetch(u_int32_t limit);
+    std::list<std::map<std::string *, std::string *>*> *fetch(u_int32_t limit,
                                    u_int32_t skip);
     std::map<std::string*, std::string*> *fetchFirst();
     void remove();

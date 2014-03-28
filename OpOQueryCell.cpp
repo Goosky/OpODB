@@ -33,6 +33,12 @@ OpOQueryCell::getOperation()
     return m_operation;
 }
 
+void
+OpOQueryCell::setOperation(OpODBQueryOperation operation)
+{
+    m_operation = operation;
+}
+
 const std::string*
 OpOQueryCell::getValue()
 {
