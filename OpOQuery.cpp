@@ -227,28 +227,28 @@ OpOQuery::count()
     return m_collection->countByQuery(m_queries);
 }
 
-std::list<OPODB_MAP>*
+std::list<OPODB_SCHEMAMAP_POINTER>*
 OpOQuery::fetch()
 {
     return m_collection->fetchByQuery(m_queries, 0, 0);
 }
 
-std::list<OPODB_MAP>*
+std::list<OPODB_SCHEMAMAP_POINTER>*
 OpOQuery::fetch(u_int32_t limit)
 {
     return m_collection->fetchByQuery(m_queries, 0, limit);
 }
 
-std::list<OPODB_MAP>*
+std::list<OPODB_SCHEMAMAP_POINTER>*
 OpOQuery::fetch(u_int32_t limit, u_int32_t skip)
 {
     return m_collection->fetchByQuery(m_queries, skip, limit);
 }
 
-std::map<std::string *, std::string *>*
+OPODB_SCHEMAMAP_POINTER
 OpOQuery::fetchFirst()
 {
-    std::list<OPODB_MAP>* docs = m_collection->fetchByQuery(m_queries, 0, 1);
+    std::list<OPODB_SCHEMAMAP_POINTER>* docs = m_collection->fetchByQuery(m_queries, 0, 1);
     if (docs->size() == 0) {
         return nullptr;
     }else{

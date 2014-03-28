@@ -29,7 +29,10 @@
 #define OPODB_DOCUMENT          "document"
 #define OPODB_KEY               "key"
 
-#define OPODB_MAP               std::map<std::string *, std::string *>*
+#define OPODB_STRINGMAP_TYPE          std::map<std::string*, std::string*>
+#define OPODB_STRINGMAP_POINTER       std::map<std::string*, std::string*>*
+#define OPODB_SCHEMAMAP_TYPE          std::map<std::string*, OpODBSchema*>
+#define OPODB_SCHEMAMAP_POINTER       std::map<std::string*, OpODBSchema*>*
 
 #if defined (__GNUC__) && (__GNUC__ >= 4)
 #define OPODB_ATTRIBUTES(attr, ...) __attribute__((attr, ##__VA_ARGS__))
